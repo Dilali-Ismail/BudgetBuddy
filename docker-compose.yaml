@@ -1,0 +1,49 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: PostgresBudgetBuddy
+    restart: always
+    environment:
+      POSTGRES_DB: BudgetBuddy
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: user_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - laravel_network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: PgAdminBudgetBuddy
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@mvc.com
+      PGADMIN_DEFAULT_PASSWORD: admin_password
+    ports:
+      - "8088:80"
+    networks:
+      - laravel_network
+
+  php:
+    build:
+      context: .
+      dockerfile: Docker/Dockerfile
+    container_name: BudgetBuddy
+    restart: always 
+    volumes:
+      - ./project:/var/www/html
+    ports:
+      - "8000:80"
+    depends_on:
+      - postgres
+    networks:
+      - laravel_network
+
+
+volumes:
+  postgres_data:
+  
+networks:
+  laravel_network:
