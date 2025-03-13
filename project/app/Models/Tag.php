@@ -8,4 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Tag extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['user_id','name','color'];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function expenses(){
+        return $this->belongsToMany(Expense::class);
+    }
 }
