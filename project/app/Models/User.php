@@ -50,4 +50,10 @@ class User extends Authenticatable
     public function tags(){
         return $this->hasMany(Tag::class);
     }
+
+    public function groups()
+{
+    return $this->belongsToMany(Group::class);
+}
+
 }

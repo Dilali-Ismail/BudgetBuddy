@@ -18,10 +18,39 @@ class ExpenseResource extends JsonResource
              'id' => $this->id ,
              'title' => $this->title ,
              'amount' => $this->amount ,
-             'expence_date' => $this->expence_date,
+             'expense_date' => $this->expense_date,
              'created_at' => $this->created_at,
              'updated_at' => $this->updated_at,
+             'user_id' => $this->user_id,
+             'group_id' => $this->when($this->group_id, $this->group_id),
              'tags' => TagResource::collection($this->whenLoaded('tags')),
+             'group' => new GroupResource($this->whenLoaded('group')),
+             'payeur' => $this->whenLoaded('participations', function () {
+                return $this->participations
+                    ->where('type', 'payeur')
+                    ->map(function ($participation) {
+                        return [
+                            'user_id' => $participation->user_id,
+                            'name' => $participation->user->name ?? 'Utilisateur inconnu',
+                            'amount' => $participation->amount,
+                            'percentage' => $participation->percentage,
+                        ];
+                    });
+            }),
+
+            'benificier' => $this->whenLoaded('participations', function () {
+                return $this->participations
+                    ->where('type', 'benificier')
+                    ->map(function ($participation) {
+                        return [
+                            'user_id' => $participation->user_id,
+                            'name' => $participation->user->name ?? 'Utilisateur inconnu',
+                            'amount' => $participation->amount,
+                            'percentage' => $participation->percentage,
+                        ];
+                    });
+            }),
+
 
         ];
 

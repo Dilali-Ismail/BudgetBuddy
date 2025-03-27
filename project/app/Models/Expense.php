@@ -9,7 +9,13 @@ class Expense extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id','title','amount','expense_date'];
+    protected $fillable = ['user_id','title','amount','expense_date','group_id','methode_diviser'];
+
+    protected $casts = [
+        'expense_date' => 'date',
+        'amount' => 'decimal:2',
+    ];
+
 
     public function user()
     {
@@ -18,5 +24,17 @@ class Expense extends Model
     public function tags()
     {
         return $this->belongsToMany(Tag::class);
+    }
+    public function group()
+    {
+        return $this->belongsTo(Group::class);
+    }
+    public function participations()
+    {
+        return $this->hasMany(ExpenseParticipation::class);
+    }
+    public function isShared()
+    {
+    return $this->group_id !== null;
     }
 }
