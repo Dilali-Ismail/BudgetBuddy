@@ -31,7 +31,7 @@ class GroupExpenseController extends Controller
 
    public function store(Request $request, $groupId)
    {
-      
+
        $group = Group::with('users')->findOrFail($groupId);
 
 
@@ -199,6 +199,9 @@ class GroupExpenseController extends Controller
     return response()->json([
         'message' => 'Supprimer avec success'
     ]);
+ }
+ public function hi(){
+    
  }
 
 }
