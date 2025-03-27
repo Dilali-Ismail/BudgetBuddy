@@ -200,8 +200,7 @@ class GroupExpenseController extends Controller
         'message' => 'Supprimer avec success'
     ]);
  }
- public function hi(){
+public function hey(){
     
- }
-
+}
 }
